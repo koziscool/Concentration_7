@@ -18,6 +18,19 @@ var matcherView = {
 
 	},
 
+	revealCard: function( id ) {
+		$('#card-' + id).addClass('revealed');
+	},
+
+	setCorrect: function( id ) {
+		$('#card-' + id).off('click');
+		$('#card-' + id).addClass('correct');
+	},
+
+	hideCards: function(  ) {
+		$('.card').not('.correct').removeClass('revealed');
+	},
+
 	addCardsToGrid: function(  ) {
 		for( var i = 0; i < this.model.cards.length; i++ ) {
 			var card = this.model.cards[i];
@@ -30,7 +43,10 @@ var matcherView = {
 	},
 
 	updateGameView: function(  ) {
-		
+		$('#game-state-text').text( this.model.gameStateText );
+		$('#num-guesses').text( this.model.numGuesses );
+		$('#total-cards').text( this.model.totalCards );
+		$('#matched-cards').text( this.model.matchedCards );
 	},
 	
 	

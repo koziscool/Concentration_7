@@ -22,6 +22,35 @@ var matcherModel = {
 		this.shuffle();
 	},
 
+	checkGuess: function( id ) {
+		this.numGuesses++;
+		var correct = this.selectedCard.value === this.getCard(id).value;
+		if( correct ) this.matchedCards += 2;
+		this.selectedCard = null;
+		if( this.matchedCards === this.totalCards  ){
+			this.gameStateText = "Congratulations, you win.";
+		}
+		return correct;
+	},
+
+	getCard: function( id ) {
+		for( var index in this.cards ){
+			if( this.cards[index].id === id ){
+				return this.cards[index];
+			}
+		}
+		return null;
+	},
+
+	setSelectedCard: function( id ) {
+		var card = this.getCard(id);
+		if(card) this.selectedCard = card;
+	},
+
+	sameCard: function( id ) {
+		return this.selectedCard && this.selectedCard.id === id;
+	},
+
 	getId: function( args ) {
 		var id = this.currentId;
 		this.currentId++;
@@ -45,7 +74,15 @@ var matcherModel = {
 	},
 
 	shuffle: function( args ) {
-		
+		var currentIndex = this.cards.length, temp, rand;
+
+		while( currentIndex > 0 ){
+			rand = Math.floor( Math.random() * currentIndex );
+			currentIndex--;
+			temp = this.cards[currentIndex];
+			this.cards[currentIndex] = this.cards[rand];
+			this.cards[rand] = temp;
+		}
 	},
 
 };
